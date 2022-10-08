@@ -37,19 +37,16 @@ public class BudgetService
             }
 
             var budgetStart = GetMonthBudget(start);
-            var budgetEnd = GetMonthBudget(end);
-
             var startBudgetPerDay = GetBudgetPerDay(start, budgetStart.Amount);
-            var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
-
             var dayDiffStart = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
-            var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
-
             var startAmount = CalculateAmount(dayDiffStart, startBudgetPerDay);
+
+            var budgetEnd = GetMonthBudget(end);
+            var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
+            var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
             var endAmount = CalculateAmount(dayDiffEnd, endBudgetPerDay);
 
-            var amount = startAmount + endAmount;
-            return middleAmount + amount;
+            return middleAmount + (startAmount + endAmount);
         }
         else
         {
