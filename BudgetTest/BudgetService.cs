@@ -7,6 +7,18 @@ using System.Linq;
 
 namespace BudgetTest;
 
+public class Period
+{
+    public Period(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+    }
+
+    public DateTime End { get; private set; }
+    public DateTime Start { get; private set; }
+}
+
 public class BudgetService
 {
     private readonly IBudgetRepo _budgetRepo;
@@ -32,7 +44,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                var overlappingDays = OverlappingDays(start, end, budget);
+                var overlappingDays = OverlappingDays(new Period(start, end), budget);
 
                 totalAmount += CalculateAmount(overlappingDays, budget.DailyAmount());
 
@@ -66,19 +78,19 @@ public class BudgetService
         return diffDays;
     }
 
-    private static int OverlappingDays(DateTime start, DateTime end, Budget budget)
+    private static int OverlappingDays(Period period, Budget budget)
     {
         DateTime overlappingStart;
         DateTime overlappingEnd;
-        if (budget.YearMonth == start.ToString("yyyyMM"))
+        if (budget.YearMonth == period.Start.ToString("yyyyMM"))
         {
-            overlappingStart = start;
-            overlappingEnd = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
+            overlappingStart = period.Start;
+            overlappingEnd = new DateTime(period.Start.Year, period.Start.Month, DateTime.DaysInMonth(period.Start.Year, period.Start.Month));
         }
-        else if (budget.YearMonth == end.ToString("yyyyMM"))
+        else if (budget.YearMonth == period.End.ToString("yyyyMM"))
         {
-            overlappingStart = new DateTime(end.Year, end.Month, 01);
-            overlappingEnd = end;
+            overlappingStart = new DateTime(period.End.Year, period.End.Month, 01);
+            overlappingEnd = period.End;
         }
         else
         {
