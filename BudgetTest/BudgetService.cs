@@ -33,8 +33,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                var another = CreatePeriod(budget);
-                var overlappingDays = period.OverlappingDays(another);
+                var overlappingDays = period.OverlappingDays(budget.CreatePeriod());
 
                 totalAmount += CalculateAmount(overlappingDays, budget.DailyAmount());
 
@@ -55,12 +54,6 @@ public class BudgetService
     private static decimal CalculateAmount(int diffDays, int budgetPerDay)
     {
         return diffDays * budgetPerDay * 100 / 100m;
-    }
-
-    private static Period CreatePeriod(Budget budget)
-    {
-        var another = new Period(budget.GetFirstDay(), budget.GetLastDay());
-        return another;
     }
 
     private static int GetBudgetPerDay(DateTime date, int amount)

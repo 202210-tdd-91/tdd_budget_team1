@@ -37,4 +37,9 @@ public class Budget
     {
         return Amount / GetLastDay().Day;
     }
+
+    public Period CreatePeriod()
+    {
+        return new Period(GetFirstDay(), GetLastDay());
+    }
 }
