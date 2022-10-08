@@ -32,4 +32,9 @@ public class Budget
         var daysInMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
         return new DateTime(firstDay.Year, firstDay.Month, daysInMonth);
     }
+
+    public int DailyAmount()
+    {
+        return Amount / GetLastDay().Day;
+    }
 }
