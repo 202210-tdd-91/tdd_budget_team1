@@ -114,6 +114,20 @@ public class BudgetTest
         result.Should().Be(200m);
     }
 
+    [Fact]
+    public void period_no_overlap_before_budget()
+    {
+        GivenBudgets(new List<Budget>()
+                     {
+                         new(yearMonth: "202210", amount: 3100),
+                     });
+        var result = _budgetService.Query(
+            new DateTime(2022, 8, 2),
+            new DateTime(2022, 9, 4));
+
+        result.Should().Be(0);
+    }
+
     private void GivenBudgets(List<Budget> budgets)
     {
         _budgetRepo.GetAll().Returns(budgets);
