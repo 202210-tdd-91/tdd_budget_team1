@@ -70,9 +70,8 @@ public class BudgetService
 
     private static int DailyAmount(Budget budget)
     {
-        DateTime date = budget.GetFirstDay();
-        var dailyAmount = budget.Amount / DateTime.DaysInMonth(date.Year, date.Month);
-        return dailyAmount;
+        // var date = budget.GetFirstDay();
+        return budget.Amount / budget.GetLastDay().Day;
     }
 
     private static int GetBudgetPerDay(DateTime date, int amount)
