@@ -34,7 +34,7 @@ public class BudgetService
             {
                 var budget = GetMonthBudget(current);
 
-                totalAmount += period.OverlappingDays(budget.CreatePeriod()) * budget.DailyAmount();
+                totalAmount += OverlappingAmount(period, budget);
 
                 current = current.AddMonths(1);
             }
@@ -64,6 +64,11 @@ public class BudgetService
     {
         var diffDays = (end - start).Days + 1;
         return diffDays;
+    }
+
+    private static int OverlappingAmount(Period period, Budget budget)
+    {
+        return period.OverlappingDays(budget.CreatePeriod()) * budget.DailyAmount();
     }
 
     private Budget GetMonthBudget(DateTime date)
