@@ -7,30 +7,6 @@ using System.Linq;
 
 namespace BudgetTest;
 
-public class Period
-{
-    public Period(DateTime start, DateTime end)
-    {
-        Start = start;
-        End = end;
-    }
-
-    public DateTime End { get; private set; }
-    public DateTime Start { get; private set; }
-
-    public int OverlappingDays(Budget budget)
-    {
-        var overlappingStart = Start > budget.GetFirstDay()
-            ? Start
-            : budget.GetFirstDay();
-        var overlappingEnd = End < budget.GetLastDay()
-            ? End
-            : budget.GetLastDay();
-
-        return (overlappingEnd - overlappingStart).Days + 1;
-    }
-}
-
 public class BudgetService
 {
     private readonly IBudgetRepo _budgetRepo;
