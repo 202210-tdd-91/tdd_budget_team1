@@ -86,6 +86,20 @@ public class BudgetTest
     }
 
     [Fact]
+    public void invalid_period()
+    {
+        GivenBudgets(new List<Budget>()
+                     {
+                         new(yearMonth: "202210", amount: 3100),
+                     });
+        var result = _budgetService.Query(
+            new DateTime(2022, 10, 11),
+            new DateTime(2022, 10, 2));
+
+        result.Should().Be(0);
+    }
+
+    [Fact]
     public void Partial_Month()
     {
         GivenBudgets(new List<Budget>()
