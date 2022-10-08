@@ -19,7 +19,7 @@ public class Period
 
     public int OverlappingDays(Period another)
     {
-        if (Start > another.End || End < another.Start)
+        if (HasNoOverlapping(another))
         {
             return 0;
         }
@@ -32,5 +32,10 @@ public class Period
             : another.End;
 
         return (overlappingEnd - overlappingStart).Days + 1;
+    }
+
+    private bool HasNoOverlapping(Period another)
+    {
+        return Start > another.End || End < another.Start;
     }
 }
