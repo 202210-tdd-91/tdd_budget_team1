@@ -32,19 +32,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                int overlappingDays;
-                if (budget.YearMonth == start.ToString("yyyyMM"))
-                {
-                    overlappingDays = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
-                }
-                else if (budget.YearMonth == end.ToString("yyyyMM"))
-                {
-                    overlappingDays = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
-                }
-                else
-                {
-                    overlappingDays = GetDayDiff(budget.GetFirstDay(), budget.GetLastDay());
-                }
+                var overlappingDays = OverlappingDays(start, end, budget);
 
                 totalAmount += CalculateAmount(overlappingDays, budget.DailyAmount());
 
@@ -76,6 +64,25 @@ public class BudgetService
     {
         var diffDays = (end - start).Days + 1;
         return diffDays;
+    }
+
+    private static int OverlappingDays(DateTime start, DateTime end, Budget budget)
+    {
+        int overlappingDays;
+        if (budget.YearMonth == start.ToString("yyyyMM"))
+        {
+            overlappingDays = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
+        }
+        else if (budget.YearMonth == end.ToString("yyyyMM"))
+        {
+            overlappingDays = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
+        }
+        else
+        {
+            overlappingDays = GetDayDiff(budget.GetFirstDay(), budget.GetLastDay());
+        }
+
+        return overlappingDays;
     }
 
     private Budget GetMonthBudget(DateTime date)
