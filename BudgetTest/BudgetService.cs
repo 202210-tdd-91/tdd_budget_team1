@@ -46,7 +46,9 @@ public class BudgetService
                 }
                 else
                 {
-                    totalAmount += budget.Amount;
+                    var dayDiffEnd = GetDayDiff(budget.GetFirstDay(), budget.GetLastDay());
+                    totalAmount += CalculateAmount(dayDiffEnd, dailyAmount);
+                    // totalAmount += budget.Amount;
                 }
 
                 current = current.AddMonths(1);

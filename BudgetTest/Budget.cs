@@ -1,3 +1,9 @@
+#region
+
+using System;
+
+#endregion
+
 namespace BudgetTest;
 
 public class Budget
@@ -12,6 +18,18 @@ public class Budget
         Amount = amount;
     }
 
-    public string YearMonth { get; set; } = default!;
     public int Amount { get; set; }
+    public string YearMonth { get; set; } = default!;
+
+    public DateTime GetFirstDay()
+    {
+        return DateTime.ParseExact(YearMonth, "yyyyMM", null);
+    }
+
+    public DateTime GetLastDay()
+    {
+        var firstDay = GetFirstDay();
+        var daysInMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
+        return new DateTime(firstDay.Year, firstDay.Month, daysInMonth);
+    }
 }
