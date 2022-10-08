@@ -86,7 +86,7 @@ public class BudgetService
             overlappingEnd = budget.GetLastDay();
         }
 
-        return GetDayDiff(overlappingStart, overlappingEnd);
+        return (overlappingEnd - overlappingStart).Days + 1;
     }
 
     private Budget GetMonthBudget(DateTime date)
