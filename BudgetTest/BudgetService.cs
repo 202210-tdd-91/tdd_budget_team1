@@ -25,7 +25,7 @@ public class BudgetService
 
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
-            var middleAmount = 0m;
+            var totalAmount = 0m;
             // var current = start.AddMonths(1);
             var current = start;
 
@@ -38,25 +38,23 @@ public class BudgetService
                 var dailyAmount = GetBudgetPerDay(current, budget.Amount);
                 if (current.ToString("yyyyMM") == start.ToString("yyyyMM"))
                 {
-                    // var dailyAmount = GetBudgetPerDay(current, budget.Amount);
                     var dayDiffStart = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
-                    startAmount = CalculateAmount(dayDiffStart, dailyAmount);
+                    totalAmount += CalculateAmount(dayDiffStart, dailyAmount);
                 }
                 else if (current.ToString("yyyyMM") == end.ToString("yyyyMM"))
                 {
-                    // var dailyAmount = GetBudgetPerDay(current, budget.Amount);
                     var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
-                    endAmount = CalculateAmount(dayDiffEnd, dailyAmount);
+                    totalAmount += CalculateAmount(dayDiffEnd, dailyAmount);
                 }
                 else
                 {
-                    middleAmount += budget.Amount;
+                    totalAmount += budget.Amount;
                 }
 
                 current = current.AddMonths(1);
             }
 
-            return middleAmount + (startAmount + endAmount);
+            return totalAmount + (startAmount + endAmount);
         }
         else
         {
