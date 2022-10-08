@@ -32,8 +32,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                DateTime date = budget.GetFirstDay();
-                var dailyAmount = budget.Amount / DateTime.DaysInMonth(date.Year, date.Month);
+                var dailyAmount = DailyAmount(budget);
                 int overlappingDays;
                 if (current.ToString("yyyyMM") == start.ToString("yyyyMM"))
                 {
@@ -67,6 +66,13 @@ public class BudgetService
     private static decimal CalculateAmount(int diffDays, int budgetPerDay)
     {
         return diffDays * budgetPerDay * 100 / 100m;
+    }
+
+    private static int DailyAmount(Budget budget)
+    {
+        DateTime date = budget.GetFirstDay();
+        var dailyAmount = budget.Amount / DateTime.DaysInMonth(date.Year, date.Month);
+        return dailyAmount;
     }
 
     private static int GetBudgetPerDay(DateTime date, int amount)
