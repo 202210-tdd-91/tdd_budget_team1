@@ -23,50 +23,8 @@ public class BudgetService
             return 0;
         }
 
-        // if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
-        // {
         var period = new Period(start, end);
 
         return _budgetRepo.GetAll().Sum(budget => budget.OverlappingAmount(period));
-        // }
-        // else
-        // {
-        //     var budget = GetMonthBudget(start);
-        //     var budgetPerDay = GetBudgetPerDay(start, budget.Amount);
-        //     var diffDays = GetDayDiff(start, end);
-        //     return CalculateAmount(diffDays, budgetPerDay);
-        // }
-    }
-
-    private static decimal CalculateAmount(int diffDays, int budgetPerDay)
-    {
-        return diffDays * budgetPerDay * 100 / 100m;
-    }
-
-    private static int GetBudgetPerDay(DateTime date, int amount)
-    {
-        return amount / DateTime.DaysInMonth(date.Year, date.Month);
-    }
-
-    private static int GetDayDiff(DateTime start, DateTime end)
-    {
-        var diffDays = (end - start).Days + 1;
-        return diffDays;
-    }
-
-    private Budget GetMonthBudget(DateTime date)
-    {
-        var budgets = _budgetRepo.GetAll();
-        var budget = budgets.FirstOrDefault(x => x.YearMonth == $"{date:yyyyMM}");
-        if (budget == null)
-        {
-            return new Budget
-                   {
-                       YearMonth = date.ToString("yyyyMM"),
-                       Amount = 0
-                   };
-        }
-
-        return budget;
     }
 }
