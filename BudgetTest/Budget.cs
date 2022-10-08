@@ -33,9 +33,9 @@ public class Budget
         return new DateTime(firstDay.Year, firstDay.Month, daysInMonth);
     }
 
-    public int DailyAmount()
+    public decimal DailyAmount()
     {
-        return Amount / GetLastDay().Day;
+        return Amount / (decimal)GetLastDay().Day;
     }
 
     public Period CreatePeriod()
@@ -43,7 +43,7 @@ public class Budget
         return new Period(GetFirstDay(), GetLastDay());
     }
 
-    public int OverlappingAmount(Period period)
+    public decimal OverlappingAmount(Period period)
     {
         return period.OverlappingDays(CreatePeriod()) * DailyAmount();
     }
