@@ -20,14 +20,12 @@ public class Period
     public int OverlappingDays(Budget budget)
     {
         var another = new Period(budget.GetFirstDay(), budget.GetLastDay());
-        var firstDay = another.Start;
-        var lastDay = another.End;
-        var overlappingStart = Start > firstDay
+        var overlappingStart = Start > another.Start
             ? Start
-            : firstDay;
-        var overlappingEnd = End < lastDay
+            : another.Start;
+        var overlappingEnd = End < another.End
             ? End
-            : lastDay;
+            : another.End;
 
         return (overlappingEnd - overlappingStart).Days + 1;
     }
