@@ -26,7 +26,6 @@ public class BudgetService
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
             var totalAmount = 0m;
-            // var current = start.AddMonths(1);
             var current = start;
 
             var loopStopCondition = new DateTime(end.Year, end.Month, 1);
@@ -38,17 +37,14 @@ public class BudgetService
                 if (current.ToString("yyyyMM") == start.ToString("yyyyMM"))
                 {
                     overlappingDays = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
-                    // totalAmount += CalculateAmount(overlappingDays, dailyAmount);
                 }
                 else if (current.ToString("yyyyMM") == end.ToString("yyyyMM"))
                 {
                     overlappingDays = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
-                    // totalAmount += CalculateAmount(overlappingDays, dailyAmount);
                 }
                 else
                 {
                     overlappingDays = GetDayDiff(budget.GetFirstDay(), budget.GetLastDay());
-                    // totalAmount += CalculateAmount(overlappingDays, dailyAmount);
                 }
 
                 totalAmount += CalculateAmount(overlappingDays, dailyAmount);
