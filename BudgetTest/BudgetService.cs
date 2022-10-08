@@ -31,7 +31,8 @@ public class BudgetService
 
             var loopStopCondition = new DateTime(end.Year, end.Month, 1);
             decimal startAmount = 0;
-            while (current < loopStopCondition)
+            decimal endAmount = 0;
+            while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
                 if (current.ToString("yyyyMM") == start.ToString("yyyyMM"))
@@ -41,6 +42,13 @@ public class BudgetService
                     var dayDiffStart = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
                     startAmount = CalculateAmount(dayDiffStart, startBudgetPerDay);
                 }
+                else if (current.ToString("yyyyMM") == end.ToString("yyyyMM"))
+                {
+                    var budgetEnd = GetMonthBudget(end);
+                    var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
+                    var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
+                    endAmount = CalculateAmount(dayDiffEnd, endBudgetPerDay);
+                }
                 else
                 {
                     middleAmount += budget.Amount;
@@ -48,11 +56,6 @@ public class BudgetService
 
                 current = current.AddMonths(1);
             }
-
-            var budgetEnd = GetMonthBudget(end);
-            var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
-            var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
-            var endAmount = CalculateAmount(dayDiffEnd, endBudgetPerDay);
 
             return middleAmount + (startAmount + endAmount);
         }
