@@ -27,17 +27,10 @@ public class BudgetService
         {
             var period = new Period(start, end);
             var totalAmount = 0m;
-            var current = start;
 
-            var loopStopCondition = new DateTime(end.Year, end.Month, 1);
-            // while (current < loopStopCondition.AddMonths(1))
             foreach (var budget in _budgetRepo.GetAll())
             {
-                // var budget = GetMonthBudget(current);
-
                 totalAmount += budget.OverlappingAmount(period);
-
-                // current = current.AddMonths(1);
             }
 
             return totalAmount;
