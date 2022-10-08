@@ -23,19 +23,19 @@ public class BudgetService
             return 0;
         }
 
-        if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
-        {
-            var period = new Period(start, end);
+        // if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
+        // {
+        var period = new Period(start, end);
 
-            return _budgetRepo.GetAll().Sum(budget => budget.OverlappingAmount(period));
-        }
-        else
-        {
-            var budget = GetMonthBudget(start);
-            var budgetPerDay = GetBudgetPerDay(start, budget.Amount);
-            var diffDays = GetDayDiff(start, end);
-            return CalculateAmount(diffDays, budgetPerDay);
-        }
+        return _budgetRepo.GetAll().Sum(budget => budget.OverlappingAmount(period));
+        // }
+        // else
+        // {
+        //     var budget = GetMonthBudget(start);
+        //     var budgetPerDay = GetBudgetPerDay(start, budget.Amount);
+        //     var diffDays = GetDayDiff(start, end);
+        //     return CalculateAmount(diffDays, budgetPerDay);
+        // }
     }
 
     private static decimal CalculateAmount(int diffDays, int budgetPerDay)
