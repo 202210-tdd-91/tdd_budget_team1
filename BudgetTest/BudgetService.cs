@@ -26,14 +26,14 @@ public class BudgetService
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
             var middleAmount = 0m;
-            var currentStart = start.AddMonths(1);
+            var current = start.AddMonths(1);
 
             var loopStopCondition = new DateTime(end.Year, end.Month, 1);
-            while (currentStart < loopStopCondition)
+            while (current < loopStopCondition)
             {
-                var budget = GetMonthBudget(currentStart);
+                var budget = GetMonthBudget(current);
                 middleAmount += budget.Amount;
-                currentStart = currentStart.AddMonths(1);
+                current = current.AddMonths(1);
             }
 
             var budgetStart = GetMonthBudget(start);
