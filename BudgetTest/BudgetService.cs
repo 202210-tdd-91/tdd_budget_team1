@@ -26,14 +26,8 @@ public class BudgetService
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
             var period = new Period(start, end);
-            var totalAmount = 0m;
 
-            foreach (var budget in _budgetRepo.GetAll())
-            {
-                totalAmount += budget.OverlappingAmount(period);
-            }
-
-            return totalAmount;
+            return _budgetRepo.GetAll().Sum(budget => budget.OverlappingAmount(period));
         }
         else
         {
