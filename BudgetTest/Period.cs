@@ -19,6 +19,11 @@ public class Period
 
     public int OverlappingDays(Period another)
     {
+        if (Start > another.End)
+        {
+            return 0;
+        }
+
         if (End < another.Start)
         {
             return 0;
