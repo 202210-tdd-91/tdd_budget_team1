@@ -30,8 +30,6 @@ public class BudgetService
             var current = start;
 
             var loopStopCondition = new DateTime(end.Year, end.Month, 1);
-            decimal startAmount = 0;
-            decimal endAmount = 0;
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
@@ -54,7 +52,7 @@ public class BudgetService
                 current = current.AddMonths(1);
             }
 
-            return totalAmount + (startAmount + endAmount);
+            return totalAmount;
         }
         else
         {
