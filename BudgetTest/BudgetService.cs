@@ -83,21 +83,23 @@ public class BudgetService
         var overlappingStart = period.Start > budget.GetFirstDay()
             ? period.Start
             : budget.GetFirstDay();
-        DateTime overlappingEnd;
+        DateTime overlappingEnd = period.End < budget.GetLastDay()
+            ? period.End
+            : budget.GetLastDay();
         if (budget.YearMonth == period.Start.ToString("yyyyMM"))
         {
             // overlappingStart = period.Start;
-            overlappingEnd = new DateTime(period.Start.Year, period.Start.Month, DateTime.DaysInMonth(period.Start.Year, period.Start.Month));
+            // overlappingEnd = new DateTime(period.Start.Year, period.Start.Month, DateTime.DaysInMonth(period.Start.Year, period.Start.Month));
         }
         else if (budget.YearMonth == period.End.ToString("yyyyMM"))
         {
             // overlappingStart = new DateTime(period.End.Year, period.End.Month, 01);
-            overlappingEnd = period.End;
+            // overlappingEnd = period.End;
         }
         else
         {
             // overlappingStart = budget.GetFirstDay();
-            overlappingEnd = budget.GetLastDay();
+            // overlappingEnd = budget.GetLastDay();
         }
 
         return (overlappingEnd - overlappingStart).Days + 1;
