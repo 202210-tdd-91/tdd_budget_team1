@@ -49,6 +49,7 @@ public class BudgetService
 
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
+            var period = new Period(start, end);
             var totalAmount = 0m;
             var current = start;
 
@@ -56,7 +57,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                var overlappingDays = new Period(start, end).OverlappingDays(budget);
+                var overlappingDays = period.OverlappingDays(budget);
 
                 totalAmount += CalculateAmount(overlappingDays, budget.DailyAmount());
 
