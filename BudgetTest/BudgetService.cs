@@ -26,20 +26,28 @@ public class BudgetService
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
             var middleAmount = 0m;
-            var current = start.AddMonths(1);
+            // var current = start.AddMonths(1);
+            var current = start;
 
             var loopStopCondition = new DateTime(end.Year, end.Month, 1);
+            decimal startAmount = 0;
             while (current < loopStopCondition)
             {
                 var budget = GetMonthBudget(current);
-                middleAmount += budget.Amount;
+                if (current.ToString("yyyyMM") == start.ToString("yyyyMM"))
+                {
+                    var budgetStart = GetMonthBudget(start);
+                    var startBudgetPerDay = GetBudgetPerDay(start, budgetStart.Amount);
+                    var dayDiffStart = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
+                    startAmount = CalculateAmount(dayDiffStart, startBudgetPerDay);
+                }
+                else
+                {
+                    middleAmount += budget.Amount;
+                }
+
                 current = current.AddMonths(1);
             }
-
-            var budgetStart = GetMonthBudget(start);
-            var startBudgetPerDay = GetBudgetPerDay(start, budgetStart.Amount);
-            var dayDiffStart = GetDayDiff(start, new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month)));
-            var startAmount = CalculateAmount(dayDiffStart, startBudgetPerDay);
 
             var budgetEnd = GetMonthBudget(end);
             var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
