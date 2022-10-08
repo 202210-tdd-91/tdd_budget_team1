@@ -18,6 +18,11 @@ public class BudgetService
 
     public decimal Query(DateTime start, DateTime end)
     {
+        if (start > end)
+        {
+            return 0;
+        }
+
         if (start.ToString("yyyyMM") != end.ToString("yyyyMM"))
         {
             var result = 0m;
