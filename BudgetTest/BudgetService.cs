@@ -33,7 +33,7 @@ public class BudgetService
             while (current < loopStopCondition.AddMonths(1))
             {
                 var budget = GetMonthBudget(current);
-                var overlappingDays = period.OverlappingDays(budget);
+                var overlappingDays = period.OverlappingDays(new Period(budget.GetFirstDay(), budget.GetLastDay()));
 
                 totalAmount += CalculateAmount(overlappingDays, budget.DailyAmount());
 

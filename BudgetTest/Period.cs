@@ -17,9 +17,8 @@ public class Period
     private DateTime End { get; }
     private DateTime Start { get; }
 
-    public int OverlappingDays(Budget budget)
+    public int OverlappingDays(Period another)
     {
-        var another = new Period(budget.GetFirstDay(), budget.GetLastDay());
         var overlappingStart = Start > another.Start
             ? Start
             : another.Start;
