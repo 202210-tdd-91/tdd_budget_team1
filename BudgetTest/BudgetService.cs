@@ -44,7 +44,7 @@ public class BudgetService
                 }
                 else if (current.ToString("yyyyMM") == end.ToString("yyyyMM"))
                 {
-                    var budgetEnd = GetMonthBudget(end);
+                    var budgetEnd = GetMonthBudget(current);
                     var endBudgetPerDay = GetBudgetPerDay(end, budgetEnd.Amount);
                     var dayDiffEnd = GetDayDiff(new DateTime(end.Year, end.Month, 01), end);
                     endAmount = CalculateAmount(dayDiffEnd, endBudgetPerDay);
